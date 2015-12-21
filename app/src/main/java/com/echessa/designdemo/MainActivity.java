@@ -24,6 +24,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.echessa.designdemo.adapter.CardAdapter;
+import com.echessa.designdemo.model.NatureItem;
+
 import java.util.ArrayList;
 
 
@@ -103,7 +106,12 @@ public class MainActivity extends AppCompatActivity {
     public static class DesignDemoFragment extends Fragment {
         private static final String TAB_POSITION = "tab_position";
 
+        RecyclerView mRecyclerView;
+        RecyclerView.LayoutManager mLayoutManager;
+        RecyclerView.Adapter mAdapter;
+
         public DesignDemoFragment() {
+
 
         }
 
@@ -125,20 +133,26 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < 50; i++) {
                 items.add("Tab #" + tabPosition + " item #" + i);
             }
-
+            mAdapter = new CardAdapter(getActivity());
             View v =  inflater.inflate(R.layout.fragment_list_view, container, false);
-            RecyclerView recyclerView = (RecyclerView)v.findViewById(R.id.recyclerview);
+            RecyclerView recyclerView = (RecyclerView)v.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(new DesignDemoRecyclerAdapter(items));
+           // recyclerView.setAdapter(new DesignDemoRecyclerAdapter(items));
+            recyclerView.setAdapter(mAdapter);
 
             return v;
         }
+
+
     }
+
 
     static class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
 
         public DesignDemoPagerAdapter(FragmentManager fm) {
             super(fm);
+
         }
 
         @Override
@@ -148,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override
